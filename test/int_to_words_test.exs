@@ -13,7 +13,7 @@ defmodule IntToWordsTest do
     @cardinal
     |> Stream.with_index 
     |> Enum.each fn({word, index}) ->
-      assert (IntToWords.itw(index) == word)
+      assert (itw(index) == word)
     end
   end
 
@@ -26,28 +26,16 @@ defmodule IntToWordsTest do
     end
   end
  
-  test "macro is_single_digit works" do
-    0..9 |> Enum.each fn(x) ->
-      assert (IntToWords.is_single_digit(x) == true)
-    end
-  end
-
-  test "macro is_cardinal works" do
-    0..19 |> Enum.each fn(x) ->
-      assert (IntToWords.is_cardinal(x) == true)
-    end
-  end
-
   test "macro is_cardinal_ten" do
     cardinal_tens = [20, 30, 40, 50, 60, 70, 80, 90]
     non_cardinal_tens = [0, 3, 6, 8, 10, 11, 56, 33, 100, 101]
 
     cardinal_tens |> Enum.each fn(x) ->
-      assert(IntToWords.is_cardinal_ten(x) == true)
+      assert(is_cardinal_ten(x) == true)
     end
 
     non_cardinal_tens |> Enum.each fn(x) ->
-      assert(IntToWords.is_cardinal_ten(x) == false, "Testing for #{x}")
+      assert(is_cardinal_ten(x) == false, "Testing for #{x}")
     end
   end
 
@@ -85,15 +73,15 @@ defmodule IntToWordsTest do
   end
 
   test "works for 1000" do
-    assert (IntToWords.itw(1000) == "one thousand")
+    assert (itw(1000) == "one thousand")
   end
 
   test "works for 115" do
-    assert (IntToWords.itw(115) == "one hundred and fifteen")
+    assert (itw(115) == "one hundred and fifteen")
   end
 
   test "works for 342" do
-    assert (IntToWords.itw(342) == "three hundred and forty-two")
+    assert (itw(342) == "three hundred and forty-two")
   end
 
   test "Some 3 digit numbers" do
@@ -112,6 +100,14 @@ defmodule IntToWordsTest do
 
   test "count work for 115" do
     assert(count(115) == 20)
+  end
+
+  test "answer for 5" do
+    assert(answer(5) == 19)
+  end
+
+  test "answer for 1000" do
+    assert(answer(1000) == 21124)
   end
 
 end

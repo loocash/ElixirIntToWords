@@ -1,41 +1,29 @@
-# So the answer for problem 17 is
-# iex> 1..1000 |> Enum.reduce(0, fn(x, acc) -> acc + count(x) end)
+# Project Euler Problem 17
+# So the answer for the problem is
+# iex> IntToWords.answer(1000)
 
 defmodule IntToWords do
   @cardinal ~w/zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen/
 
   @cardinal_tens ~w/twenty thirty forty fifty sixty seventy eighty ninety/
-  
-  defmacro is_single_digit(number) do
-    quote do: unquote(number) >= 0 and unquote(number) < 10
-  end
-
-  defmacro is_cardinal(number) do
-    quote do: unquote(number) >= 0 and unquote(number) < 20
-  end
 
   defmacro is_cardinal_ten(number) do
     quote do 
       (rem(unquote(number), 10) == 0) and 
       (unquote(number) > 19) and 
-      is_single_digit(unquote(number)/10)
+      unquote(number) < 100
     end
   end
 
   defmacro is_hundred(number) do
     quote do
-      (rem(unquote(number), 100) == 0) and 
-      (unquote(number) > 99) and 
+      rem(unquote(number), 100) == 0 and 
+      unquote(number) > 99 and 
       unquote(number) < 901
     end
   end
 
-  # numbers between 21 and 99
-  defmacro is_hyphen_number(number) do
-    quote do: unquote(number) >= 21 and unquote(number) <= 99
-  end
-
-  def itw(number) when is_cardinal(number) do
+  def itw(number) when number < 20 do
     case Enum.fetch @cardinal, number do
       {:ok, word} -> word
       {:error} -> "unknown"
@@ -50,7 +38,7 @@ defmodule IntToWords do
     end
   end
 
-  def itw(number) when is_hyphen_number(number) do
+  def itw(number) when number < 100 do
     {st, nd} = {div(number, 10)*10, rem(number, 10)}
     "#{itw(st)}-#{itw(nd)}"
   end
@@ -73,6 +61,11 @@ defmodule IntToWords do
     |> String.replace(" ", "")
     |> String.replace("-", "")
     |> String.length
+  end
+
+  def answer(boundary) do
+    1..boundary 
+    |> Enum.reduce(0, fn(x, acc) -> acc + count(x) end)
   end
 
 end

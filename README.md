@@ -1,6 +1,7 @@
 # IntToWords
 
-**TODO: Add description**
+Script created for learning purposes in Elixir language.
+Solves problem 17 of the Project Euler.
 
 ## Installation
 
